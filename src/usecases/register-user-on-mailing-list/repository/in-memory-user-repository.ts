@@ -1,37 +1,37 @@
-import { UserRepository } from "../ports/user-repository";
-import { UserData } from "../user-data";
+import { UserRepository } from '../ports/user-repository'
+import { UserData } from '../user-data'
 
 export class InMemoryUserRepository implements UserRepository {
-  private repository: UserData[];
+  private repository: UserData[]
 
-  constructor(repository: UserData[]) {
-    this.repository = repository;
+  constructor (repository: UserData[]) {
+    this.repository = repository
   }
 
-  async add(user: UserData): Promise<void> {
-    const alreadyExists = await this.exists(user);
+  async add (user: UserData): Promise<void> {
+    const alreadyExists = await this.exists(user)
     if (alreadyExists) {
-      throw new Error("User already exists");
+      throw new Error('User already exists')
     }
-    this.repository.push(user);
+    this.repository.push(user)
   }
 
-  findUserByEmail(email: string): UserData | null {
-    const user = this.repository.find((user) => user.email === email);
+  findUserByEmail (email: string): UserData | null {
+    const user = this.repository.find((user) => user.email === email)
     if (!user) {
-      return null;
+      return null
     }
-    return user;
+    return user
   }
 
-  async findAllUsers(): Promise<UserData[]> {
-    return this.repository;
+  async findAllUsers (): Promise<UserData[]> {
+    return this.repository
   }
 
-  async exists(user: UserData): Promise<boolean> {
+  async exists (user: UserData): Promise<boolean> {
     if (!(await this.findUserByEmail(user.email))) {
-      return false;
+      return false
     }
-    return true;
+    return true
   }
 }
