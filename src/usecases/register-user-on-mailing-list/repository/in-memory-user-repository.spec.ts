@@ -17,4 +17,14 @@ describe("In Memory User Repository", () => {
     await userRepo.add({ name, email });
     expect(users[0].name).toBe("any_name");
   });
+
+  test("shold return all users in the repository", async () => {
+    const users: UserData[] = [
+      { name: "any_name", email: "any@email.com" },
+      { name: "second_name", email: "secondAny@email.com" },
+    ];
+    const userRepo = new InMemoryUserRepository(users);
+    const returnedUsers = await userRepo.findAllUsers();
+    expect(returnedUsers.length).toBe(2);
+  });
 });
